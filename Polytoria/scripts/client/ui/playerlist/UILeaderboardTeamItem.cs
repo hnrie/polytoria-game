@@ -57,9 +57,7 @@ public partial class UILeaderboardTeamItem : Control
 	/*
 	public void UpdateStat(Stat stat)
 	{
-		// Add a space because it misalign for some reason
-		// TODO: Remove this
-		_statToLabel[stat].Text = " " + (stat.Get(TargetPlayer)?.ToString() ?? "N/A");
+		_statToLabel[stat].Text = stat.Get(TargetPlayer)?.ToString() ?? "N/A";
 
 		Leaderboard.QueueSortList();
 	}

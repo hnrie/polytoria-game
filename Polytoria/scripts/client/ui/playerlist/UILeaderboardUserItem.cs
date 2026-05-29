@@ -64,7 +64,7 @@ public partial class UILeaderboardUserItem : Button
 
 	public void UpdateStat(Stat stat)
 	{
-		_statToLabel[stat].Text = " " + stat.GetDisplayValue(TargetPlayer);
+		_statToLabel[stat].Text = stat.GetDisplayValue(TargetPlayer);
 
 		Leaderboard.QueueSortList();
 	}
