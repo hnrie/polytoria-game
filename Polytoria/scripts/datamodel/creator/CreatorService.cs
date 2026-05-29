@@ -380,7 +380,8 @@ public sealed partial class CreatorService : Node, IScriptObject
 			// open in vscode
 			System.Diagnostics.Process p = new();
 			p.StartInfo.FileName = "code";
-			p.StartInfo.Arguments = $"\"{path}\" \"{CurrentSession.ProjectFolderPath}\"";
+			p.StartInfo.ArgumentList.Add(path);
+			p.StartInfo.ArgumentList.Add(CurrentSession.ProjectFolderPath);
 			p.StartInfo.UseShellExecute = true;
 			p.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
 			p.Start();
@@ -391,7 +392,8 @@ public sealed partial class CreatorService : Node, IScriptObject
 			// open in zed
 			System.Diagnostics.Process p = new();
 			p.StartInfo.FileName = "zed";
-			p.StartInfo.Arguments = $"\"{path}\" \"{CurrentSession.ProjectFolderPath}\"";
+			p.StartInfo.ArgumentList.Add(path);
+			p.StartInfo.ArgumentList.Add(CurrentSession.ProjectFolderPath);
 			p.StartInfo.UseShellExecute = true;
 			p.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
 			p.Start();

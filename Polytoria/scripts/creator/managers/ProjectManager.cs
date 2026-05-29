@@ -394,7 +394,7 @@ public static class ProjectManager
 		Process p = new();
 		p.StartInfo.FileName = "git";
 		p.StartInfo.Arguments = arguments;
-		p.StartInfo.UseShellExecute = true;
+		p.StartInfo.UseShellExecute = false;
 		p.StartInfo.WorkingDirectory = workingDirectory;
 		p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 		p.Start();
