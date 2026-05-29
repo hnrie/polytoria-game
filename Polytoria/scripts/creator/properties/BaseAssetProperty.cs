@@ -4,6 +4,7 @@
 
 using Godot;
 using Polytoria.Datamodel.Resources;
+using Polytoria.Attributes;
 using Polytoria.Shared;
 using System;
 using System.Reflection;
@@ -58,11 +59,7 @@ public sealed partial class BaseAssetProperty : Control, IProperty<BaseAsset?>
 
 			Type typeToLoad = baseAsset.GetType();
 
-			// TODO: Kinda hardcoded, we should look into this
-			if (baseAsset is AudioAsset)
-			{
-				typeToLoad = typeof(AudioAsset);
-			}
+			typeToLoad = typeToLoad.GetCustomAttribute<CustomSubviewAttribute>()?.TargetType ?? typeToLoad;
 
 			IPropertySubview? subview = Globals.LoadSubviewProperty(typeToLoad);
 			if (subview != null)

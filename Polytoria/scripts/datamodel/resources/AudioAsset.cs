@@ -7,6 +7,7 @@ using Polytoria.Attributes;
 namespace Polytoria.Datamodel.Resources;
 
 [Abstract]
+[CustomSubview(typeof(AudioAsset))]
 public partial class AudioAsset : ResourceAsset
 {
 }
