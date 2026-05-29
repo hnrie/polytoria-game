@@ -317,7 +317,7 @@ public sealed partial class CreatorService : Node, IScriptObject
 		CurrentGame?.CreatorContext.History.Undo();
 	}
 
-	public static void OpenScript(Script script)
+	public static async void OpenScript(Script script)
 	{
 		if (CurrentSession == null) return;
 		if (script.LinkedScript != null)
@@ -325,8 +325,11 @@ public sealed partial class CreatorService : Node, IScriptObject
 			string? scriptPath = script.LinkedScript.LinkedPath;
 			if (scriptPath == null)
 			{
-				// TODO: We should have a popup dialog showing invalid references
-				Interface.PopupAlert("Script's file reference's invalid, please reinsert the script from the file browser.");
+				bool unlink = await Interface.PromptConfirmation("Script's file reference is invalid, please reinsert the script from the file browser.\n\nWould you like to unlink the invalid reference?", "Invalid script reference");
+				if (unlink)
+				{
+					script.LinkedScript = null;
+				}
 				return;
 			}
 			PT.Print("Opening ", scriptPath);
