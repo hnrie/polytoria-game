@@ -1,0 +1,15 @@
+--- Polytoria/scripts/creator/ui/ctxmenus/ExplorerItemContextMenu.cs
++++ Polytoria/scripts/creator/ui/ctxmenus/ExplorerItemContextMenu.cs
+@@ -60,8 +60,10 @@
+			AddIconItem("ungroup", "Ungroup", 32);
+		}
+
+-		// TODO: Implement Model publish
+-		//AddIconItem("publish", "Publish", 39);
++		if (Target is Model)
++		{
++			AddIconItem("publish", "Publish", 39);
++		}
+
+		if (isSingle)
+		{

@@ -60,17 +60,14 @@ public partial class ExplorerItemContextMenu : ContextMenu
 			AddIconItem("ungroup", "Ungroup", 32);
 		}
 
-		if (Target is Model)
-		{
-			AddIconItem("publish", "Publish", 39);
-		}
+		AddIconItem("publish", "Publish", 39);
 
 		if (isSingle)
 		{
 			AddIconItem("route", "Copy Lua Path", 51);
 
 			// TODO: Implement Open Documentation
-			AddIconItem("book", "Open Documentation", 59);
+			//AddIconItem("book", "Open Documentation", 59);
 		}
 		AddSeparator();
 		AddIconItem("lock", "Lock/Unlock", 61);
@@ -184,7 +181,7 @@ public partial class ExplorerItemContextMenu : ContextMenu
 				}
 			case 59: // Open Documentation
 				{
-					OS.ShellOpen($"https://v2docs.polytoria.com/?q={Target!.ClassName}");
+					//OS.ShellOpen(Target!.ClassName);
 					break;
 				}
 			case 61: // Lock/Unlock

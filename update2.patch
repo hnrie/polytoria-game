@@ -1,0 +1,26 @@
+--- Polytoria/scripts/creator/ui/ctxmenus/ExplorerItemContextMenu.cs
++++ Polytoria/scripts/creator/ui/ctxmenus/ExplorerItemContextMenu.cs
+@@ -60,7 +60,10 @@
+			AddIconItem("ungroup", "Ungroup", 32);
+		}
+
+-		AddIconItem("publish", "Publish", 39);
++		if (Target is Model)
++		{
++			AddIconItem("publish", "Publish", 39);
++		}
+
+		if (isSingle)
+		{
+@@ -148,6 +151,11 @@
+					context.History.UngroupInstances(targets);
+					break;
+				}
++			case 39: // Publish
++				{
++					CreatorService.Interface.OpenPublish(Target!);
++					break;
++				}
+			case 41: // Edit Model
+				{
+					if (Target != null)
