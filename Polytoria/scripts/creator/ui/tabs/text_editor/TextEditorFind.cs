@@ -259,6 +259,6 @@ public sealed partial class TextEditorFind : Control
 	{
 		Active = false;
 		Visible = false;
-		Root.CodeEditor.GrabFocus();
+		Root.GrabFocus();
 	}
 }
