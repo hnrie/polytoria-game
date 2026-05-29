@@ -1087,8 +1087,7 @@ public sealed partial class Player : NPC
 
 	internal override bool TransformNetworkCheck(Transform3D newTransform)
 	{
-		// TODO: Make sanity checks here
-		return true;
+		return newTransform.IsFinite();
 	}
 
 	internal void AdminKick()
