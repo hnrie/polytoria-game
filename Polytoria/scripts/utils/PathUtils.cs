@@ -17,7 +17,13 @@ public static class PathUtils
 			string fullPath = Path.GetFullPath(Path.Combine(directory, path)).SanitizePath();
 			string fullDirectory = Path.GetFullPath(directory).SanitizePath();
 
-			return fullPath.StartsWith(fullDirectory, StringComparison.OrdinalIgnoreCase);
+			if (!fullDirectory.EndsWith('/'))
+			{
+				fullDirectory += '/';
+			}
+
+			return fullPath.StartsWith(fullDirectory, StringComparison.OrdinalIgnoreCase) ||
+                   fullPath.Equals(fullDirectory.TrimEnd('/'), StringComparison.OrdinalIgnoreCase);
 		}
 		catch
 		{
