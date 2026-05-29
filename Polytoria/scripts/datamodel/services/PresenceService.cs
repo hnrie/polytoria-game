@@ -21,7 +21,6 @@ public sealed partial class PresenceService : Instance
 	private Discord.Discord? _discord;
 	private bool _updateDirty = false;
 	private string? _imageURL;
-	private static bool _creatorActivityStarted = false;
 
 	private long _startTime = 0;
 
@@ -126,9 +125,8 @@ public sealed partial class PresenceService : Instance
 	{
 		if (Root.SessionType == World.SessionTypeEnum.Creator)
 		{
-			// TODO: We need a separate global for managing creator presence
-			if (_creatorActivityStarted) return;
-			_creatorActivityStarted = true;
+			if (Globals.CreatorActivityStarted) return;
+			Globals.CreatorActivityStarted = true;
 		}
 		try
 		{

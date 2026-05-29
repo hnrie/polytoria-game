@@ -116,6 +116,7 @@ public sealed partial class Globals : Node
 	/// Check if Godot is available, this can be false in unit testing environments
 	/// </summary>
 	public static bool GDAvailable { get; private set; } = false;
+	public static bool CreatorActivityStarted { get; set; } = false;
 
 	public static event Action? BeforeQuit;
 	public static event Action<InputEvent>? GodotInputEvent;
