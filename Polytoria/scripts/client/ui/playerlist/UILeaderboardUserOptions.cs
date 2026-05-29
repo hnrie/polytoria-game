@@ -71,8 +71,6 @@ public partial class UILeaderboardUserOptions : Control
 		_animPlay.Stop();
 		_animPlay.Play("appear");
 
-		// TODO: Do add/remove friend options
-		/*
 		int myReq = _lastReq;
 		
 		ShowLoader(true);
@@ -85,7 +83,6 @@ public partial class UILeaderboardUserOptions : Control
 		_addFriendBtn.Visible = !isFriends;
 		_removeFriendBtn.Visible = isFriends;
 		ShowLoader(false);
-		*/
 	}
 
 	public void Disappear()
