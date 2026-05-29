@@ -51,33 +51,6 @@ public partial class UILeaderboardTeamItem : Control
 		};
 		_statsBox.AddChild(l);
 		_statToLabel[stat] = l;
-		//UpdateStat(stat);
 	}
 
-	/*
-	public void UpdateStat(Stat stat)
-	{
-		// Add a space because it misalign for some reason
-		// TODO: Remove this
-		_statToLabel[stat].Text = " " + (stat.Get(TargetPlayer)?.ToString() ?? "N/A");
-
-		Leaderboard.QueueSortList();
-	}
-
-	private void UpdateUserInfo(APIUserInfo info)
-	{
-		TargetPlayer.UserInfoReady -= UpdateUserInfo;
-		string badgePath = BadgeImageDirPath.PathJoin(info.UserRoleClass + ".png");
-		if (ResourceLoader.Exists(badgePath))
-		{
-			_badgeRect.Texture = GD.Load<Texture2D>(badgePath);
-		}
-	}
-
-	public override void _Pressed()
-	{
-		Leaderboard.UserOptions.PopupAt(this);
-		base._Pressed();
-	}
-	*/
 }
