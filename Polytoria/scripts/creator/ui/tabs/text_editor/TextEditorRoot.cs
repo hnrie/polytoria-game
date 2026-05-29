@@ -95,9 +95,7 @@ public partial class TextEditorRoot : Node
 
 		CodeEditor.Root = this;
 
-		// TODO: Can be made into TextEditorRoot.GrabFocus() ?
-		// Needs to be call deferred to be the last to grab
-		PT.CallDeferred(CodeEditor.GrabFocus);
+		Callable.From(GrabFocus).CallDeferred();
 
 		if (_completion != null)
 		{
@@ -412,5 +410,10 @@ public partial class TextEditorRoot : Node
 				CodeEditor.SetLine(lineIdx, "--" + lineText);
 			}
 		}
+	}
+
+	public void GrabFocus()
+	{
+		CodeEditor.GrabFocus();
 	}
 }
