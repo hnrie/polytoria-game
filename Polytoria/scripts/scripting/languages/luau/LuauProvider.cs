@@ -1035,111 +1035,95 @@ public sealed partial class LuauProvider : IScriptLanguageProvider
 	{
 		Type? valType = value?.GetType();
 
-		// TODO: Refactor this so it's not one gazillion if-elses
-		if (value == null)
+		switch (value)
 		{
-			state.PushNil();
-		}
-		else if (value is string strVal)
-		{
-			state.PushString(strVal);
-		}
-		else if (value is int intVal)
-		{
-			state.PushNumber(intVal);
-		}
-		else if (value is uint uintVal)
-		{
-			state.PushNumber(uintVal);
-		}
-		else if (value is ulong ulongVal)
-		{
-			state.PushNumber(ulongVal);
-		}
-		else if (value is long longVal)
-		{
-			state.PushNumber(longVal);
-		}
-		else if (value is double dblVal)
-		{
-			state.PushNumber(dblVal);
-		}
-		else if (value is decimal decimalVal)
-		{
-			state.PushNumber((double)decimalVal);
-		}
-		else if (value is float flVal)
-		{
-			state.PushNumber(flVal);
-		}
-		else if (value is bool boolVal)
-		{
-			state.PushBoolean(boolVal);
-		}
-		else if (value is byte[] byteArrayVal)
-		{
-			state.PushBuffer(byteArrayVal);
-		}
-		else if (valType != null && valType.IsEnum) // Handle enums
-		{
-			Type underlyingType = Enum.GetUnderlyingType(valType);
-			object numericValue = Convert.ChangeType(value, underlyingType);
-			int enumVal = Convert.ToInt32(numericValue);
-
-			PushEnum(state, valType, enumVal);
-		}
-		else if (value is IDictionary<string, object> dict) // Handle string key Dictionaries
-		{
-			state.NewTable();
-			foreach ((string key, object val) in dict)
-			{
-				state.PushString(key);
-				PushValueToLua(state, val);
-				state.SetTable(-3);
-			}
-		}
-		else if (value is IDictionary<object, object> odict) // Handle Dictionaries
-		{
-			state.NewTable();
-			foreach ((object key, object val) in odict)
-			{
-				PushValueToLua(state, key);
-				PushValueToLua(state, val);
-				state.SetTable(-3);
-			}
-		}
-		else if (value is IScriptObject sc) // Handle script objects
-		{
-			PushCSClass(state, sc);
-		}
-		else if (_gdToProxy.TryGetValue(value.GetType(), out MethodInfo? fromGDClass)) // Handle proxies
-		{
-			IScriptObject? proxy = fromGDClass?.Invoke(null, [value]) as IScriptObject
-								   ?? value as IScriptObject;
-
-			if (proxy != null)
-				PushCSClass(state, proxy);
-			else
+			case null:
 				state.PushNil();
-		}
-		else if (value is IEnumerable enumerable) // Handle arrays/lists
-		{
-			state.NewTable();
-			int tableIndex = state.GetTop();
+				break;
+			case string strVal:
+				state.PushString(strVal);
+				break;
+			case int intVal:
+				state.PushNumber(intVal);
+				break;
+			case uint uintVal:
+				state.PushNumber(uintVal);
+				break;
+			case ulong ulongVal:
+				state.PushNumber(ulongVal);
+				break;
+			case long longVal:
+				state.PushNumber(longVal);
+				break;
+			case double dblVal:
+				state.PushNumber(dblVal);
+				break;
+			case decimal decimalVal:
+				state.PushNumber((double)decimalVal);
+				break;
+			case float flVal:
+				state.PushNumber(flVal);
+				break;
+			case bool boolVal:
+				state.PushBoolean(boolVal);
+				break;
+			case byte[] byteArrayVal:
+				state.PushBuffer(byteArrayVal);
+				break;
+			case object obj when valType != null && valType.IsEnum: // Handle enums
+				Type underlyingType = Enum.GetUnderlyingType(valType);
+				object numericValue = Convert.ChangeType(obj, underlyingType);
+				int enumVal = Convert.ToInt32(numericValue);
 
-			int index = 1;
-			foreach (object? item in enumerable)
-			{
-				state.PushInteger(index);
-				PushValueToLua(state, item);
-				state.SetTable(tableIndex);
-				index++;
-			}
-		}
-		else // Fallback for unsupported types
-		{
-			GD.PushError("PushValueToLua Unsupported type: ", value.GetType());
-			state.PushNil();
+				PushEnum(state, valType, enumVal);
+				break;
+			case IDictionary<string, object> dict: // Handle string key Dictionaries
+				state.NewTable();
+				foreach ((string key, object val) in dict)
+				{
+					state.PushString(key);
+					PushValueToLua(state, val);
+					state.SetTable(-3);
+				}
+				break;
+			case IDictionary<object, object> odict: // Handle Dictionaries
+				state.NewTable();
+				foreach ((object key, object val) in odict)
+				{
+					PushValueToLua(state, key);
+					PushValueToLua(state, val);
+					state.SetTable(-3);
+				}
+				break;
+			case IScriptObject sc: // Handle script objects
+				PushCSClass(state, sc);
+				break;
+			case object obj when valType != null && _gdToProxy.TryGetValue(valType, out MethodInfo? fromGDClass): // Handle proxies
+				IScriptObject? proxy = fromGDClass?.Invoke(null, [obj]) as IScriptObject
+									   ?? obj as IScriptObject;
+
+				if (proxy != null)
+					PushCSClass(state, proxy);
+				else
+					state.PushNil();
+				break;
+			case IEnumerable enumerable: // Handle arrays/lists
+				state.NewTable();
+				int tableIndex = state.GetTop();
+
+				int index = 1;
+				foreach (object? item in enumerable)
+				{
+					state.PushInteger(index);
+					PushValueToLua(state, item);
+					state.SetTable(tableIndex);
+					index++;
+				}
+				break;
+			default: // Fallback for unsupported types
+				GD.PushError("PushValueToLua Unsupported type: ", valType);
+				state.PushNil();
+				break;
 		}
 	}
 
