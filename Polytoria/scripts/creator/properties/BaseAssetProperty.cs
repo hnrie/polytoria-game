@@ -56,15 +56,18 @@ public sealed partial class BaseAssetProperty : Control, IProperty<BaseAsset?>
 
 			_foldable.Title = baseAsset.ClassName;
 
-			Type typeToLoad = baseAsset.GetType();
+			Type? typeToLoad = baseAsset.GetType();
+			IPropertySubview? subview = null;
 
-			// TODO: Kinda hardcoded, we should look into this
-			if (baseAsset is AudioAsset)
+			while (typeToLoad != null && typeof(BaseAsset).IsAssignableFrom(typeToLoad))
 			{
-				typeToLoad = typeof(AudioAsset);
+				subview = Globals.LoadSubviewProperty(typeToLoad);
+				if (subview != null)
+				{
+					break;
+				}
+				typeToLoad = typeToLoad.BaseType;
 			}
-
-			IPropertySubview? subview = Globals.LoadSubviewProperty(typeToLoad);
 			if (subview != null)
 			{
 				subview.TargetObject = baseAsset;
