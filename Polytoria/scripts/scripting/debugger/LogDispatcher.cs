@@ -4,9 +4,6 @@
 
 using MemoryPack;
 using Polytoria.Attributes;
-#if CREATOR
-using Polytoria.Creator.UI;
-#endif
 using Polytoria.Datamodel;
 using Polytoria.Networking;
 using Polytoria.Shared;
@@ -95,10 +92,7 @@ public partial class LogDispatcher : NetworkedObject
 					}
 				}
 			}
-			// TODO: Turn this into an event instead? Maybe dispatch it to PT
-#if CREATOR
-			DebugConsole.Singleton?.NewLog(data);
-#endif
+			PT.InvokeOnLogDispatched(data);
 		});
 		if (Root.Entry?.DebugAgent != null)
 		{

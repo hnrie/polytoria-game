@@ -4,6 +4,7 @@
 
 using Godot;
 using System;
+using Polytoria.Shared;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -59,6 +60,13 @@ public partial class DebugConsole : Control
 		_richLabel.Text = "";
 		int size = _richLabel.GetThemeFontSize("normal_font_size", "Label");
 		_currentFontSize = size > 0 ? size : 16;
+		PT.OnLogDispatched += NewLog;
+	}
+
+	public override void _ExitTree()
+	{
+		base._ExitTree();
+		PT.OnLogDispatched -= NewLog;
 	}
 
 	public override void _Process(double delta)
