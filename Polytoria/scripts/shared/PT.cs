@@ -5,9 +5,6 @@
 using Godot;
 using Polytoria.Datamodel;
 using Polytoria.Scripting;
-#if CREATOR
-using Polytoria.Creator.UI;
-#endif
 using System;
 
 namespace Polytoria.Shared;
@@ -15,6 +12,8 @@ namespace Polytoria.Shared;
 public static class PT
 {
 	public static int OwnerThreadId { get; private set; }
+
+	public static event Action<LogDispatcher.LogData>? OnLogDispatched;
 
 	static PT()
 	{
@@ -123,13 +122,10 @@ public static class PT
 	{
 		try
 		{
-#if CREATOR
-			// TODO: Turn this into an event instead?
 			CallOnMainThread(() =>
 			{
-				DebugConsole.Singleton?.NewLog(data);
+				OnLogDispatched?.Invoke(data);
 			});
-#endif
 			if (data.LogType != LogDispatcher.LogTypeEnum.Info)
 				World.Current?.ScriptService?.Logger.DispatchLog(data);
 		}
@@ -145,6 +141,11 @@ public static class PT
 				Console.WriteLine("[ERROR] [Log Dispatch] " + ex);
 			}
 		}
+	}
+
+	public static void InvokeOnLogDispatched(LogDispatcher.LogData data)
+	{
+		OnLogDispatched?.Invoke(data);
 	}
 
 	public static bool IsMainThread()
