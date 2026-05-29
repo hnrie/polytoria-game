@@ -94,11 +94,10 @@ public class NetworkInstance
 	/// <summary>
 	/// Adapt server bandwidth to player count
 	/// </summary>
-	/// <param name="_">used to be player count</param>
-	public void AdaptBandwidth(int _)
+	/// <param name="playerCount">player count</param>
+	public void AdaptBandwidth(int playerCount)
 	{
-		// TODO: TEMP FIX, unlimit out bandwidth
-		_peer.BandwidthLimit(0, 0);
+		_peer.BandwidthLimit(BandwidthInLimit, BandwidthOutLimit + (playerCount * BandwidthPerPlayer));
 	}
 
 	private void PostPeerCreate()
