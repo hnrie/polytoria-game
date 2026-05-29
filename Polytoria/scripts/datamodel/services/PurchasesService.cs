@@ -238,8 +238,8 @@ public sealed partial class PurchasesService : Instance
 		}
 		else
 		{
-			// TODO: Implement error modal
-			_purchasePrompt?.Hide();
+			_purchasePrompt?.Close();
+			Root.CoreUI.CoreUI.NotificationCenter.FireMessage("Purchase Failed", "Your purchase could not be completed at this time.");
 		}
 	}
 
