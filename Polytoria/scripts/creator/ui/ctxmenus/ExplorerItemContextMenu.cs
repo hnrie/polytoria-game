@@ -68,7 +68,7 @@ public partial class ExplorerItemContextMenu : ContextMenu
 			AddIconItem("route", "Copy Lua Path", 51);
 
 			// TODO: Implement Open Documentation
-			//AddIconItem("book", "Open Documentation", 59);
+			AddIconItem("book", "Open Documentation", 59);
 		}
 		AddSeparator();
 		AddIconItem("lock", "Lock/Unlock", 61);
@@ -182,7 +182,7 @@ public partial class ExplorerItemContextMenu : ContextMenu
 				}
 			case 59: // Open Documentation
 				{
-					//OS.ShellOpen(Target!.ClassName);
+					OS.ShellOpen($"https://v2docs.polytoria.com/?q={Target!.ClassName}");
 					break;
 				}
 			case 61: // Lock/Unlock
